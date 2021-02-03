@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-4 sidebar">
                     <h2 class="text-light">#SLACK#</h2>
-                    <hr style="border: 1px solid #333;">
+                    <hr style="border: 1px solid #f1e0c5;">
                     <button @click="logout" class="btn btn-outline-light">
                         Logout
                     </button>
@@ -39,7 +39,7 @@ export default {
         float: left;
         position: fixed;
         height: 100%;
-        background-color: #000;
+        background-color: #2e0014;
         padding-top: 2em;
         /* overflow: scroll; */
     }

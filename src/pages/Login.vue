@@ -6,15 +6,15 @@
         </div>
 
         <!-- Show laoding status -->
-        <div class="alert alert-info" v-if="loading">
+        <div class="alert alert-info text-center" v-if="loading">
             Proccesing...
         </div>
 
         <!-- Show errors -->
-        <div class="alert alert-danger" v-if="hasErrors">
+        <div class="alert alert-danger text-center" v-if="hasErrors">
             <div v-for="error in errors" v-bind:key="error">{{ error }}</div>
         </div>
-
+        
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col text-center">
@@ -83,5 +83,9 @@ export default {
 <style scoped>
     .btn, .jumbotron{
         border-radius: 0px;
+    }
+    .jumbotron {
+        margin-bottom: 0 !important;
+        background-color: #065a82!important;
     }
 </style>
