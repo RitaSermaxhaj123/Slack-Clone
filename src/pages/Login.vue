@@ -4,6 +4,17 @@
             <h2 class="lead display-3">#SLACK#</h2>
             <p>Realtime communication at it's best</p>
         </div>
+
+        <!-- Show laoding status -->
+        <div class="alert alert-info" v-if="loading">
+            Proccesing...
+        </div>
+
+        <!-- Show errors -->
+        <div class="alert alert-danger" v-if="hasErrors">
+            <div v-for="error in errors" v-bind:key="error">{{ error }}</div>
+        </div>
+
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col text-center">
@@ -23,8 +34,21 @@
 import auth from 'firebase/auth'
 export default {
     name: 'login',
+    data(){
+        return{
+            errors: [],
+            loading: false
+        }
+    },
+    computed:{
+        hasErrors(){
+            return this.errors.length > 0;
+        }
+    },
     methods:{
         loginWithGoogle(){
+            this.loading = true;
+            this.errors = [];
             firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
             .then((response) => {
                 // console.log(response.user);
@@ -32,7 +56,10 @@ export default {
                 //dispatch setUser action
                 this.$store.dispatch('setUser', response.user);
                 this.$route.push('/');
-            });
+            }).catch(error=>{
+                this.errors.push(error.message);
+                this.loading = false;
+            })
         }
     }
 }
