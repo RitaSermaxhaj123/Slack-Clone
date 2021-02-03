@@ -18,12 +18,12 @@
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col text-center">
-                    <button @click="loginWithGoogle" class="btn btn-outline-danger btn-lg">Login with google</button>
+                    <button @click="loginWithGoogle" class="btn btn-outline-danger btn-lg">&nbsp;Login with Google &nbsp;&nbsp;<i class="fab fa-google"></i></button>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col text-center">
-                    <button class="btn btn-outline-info btn-lg">Login with twitter</button>
+                    <button @click="loginWithFacebook" class="btn btn-outline-info btn-lg">Login with Facebook&nbsp;&nbsp;<i class="fab fa-facebook-f"></i></button>
                 </div>
             </div>
         </div>
@@ -55,7 +55,22 @@ export default {
 
                 //dispatch setUser action
                 this.$store.dispatch('setUser', response.user);
-                this.$route.push('/');
+                this.$router.push('/');
+            }).catch(error=>{
+                this.errors.push(error.message);
+                this.loading = false;
+            })
+        },
+        loginWithFacebook(){
+            this.loading = true;
+            this.errors = [];
+            firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
+            .then((response) => {
+                // console.log(response.user);
+
+                //dispatch setUser action
+                this.$store.dispatch('setUser', response.user);
+                this.$router.push('/');
             }).catch(error=>{
                 this.errors.push(error.message);
                 this.loading = false;
