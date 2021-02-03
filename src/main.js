@@ -33,7 +33,10 @@ const unsubscribe = firebase.auth().onAuthStateChanged(user=>{
     store,
     components: { App },
     template: '<App/>'
-  })
+  });
+
+  //recursion
+  unsubscribe()
 })
 
 
