@@ -1,5 +1,20 @@
 <template>
-    <h2>Chat page</h2>
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 sidebar">
+                    <h2 class="text-light">#SLACK#</h2>
+                    <hr style="border: 1px solid #333;">
+                    <button class="btn btn-outline-light">
+                        Logout
+                    </button>
+                </div>
+                <div class="col-md-8 content">
+                    Content
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -7,3 +22,22 @@ export default {
     name: 'chat'
 }
 </script>
+
+<style scoped>
+    .sidebar{
+        width:33.5%;
+        display: block;
+        float: left;
+        position: fixed;
+        height: 100%;
+        background-color: #000;
+        padding-top: 2em;
+        /* overflow: scroll; */
+    }
+    .content{
+        width:66%;
+        display: block;
+        float:left;
+        margin-left: 34%;
+    }
+</style>
