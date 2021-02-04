@@ -32,12 +32,14 @@
 
 <script>
 import auth from 'firebase/auth'
+import database from 'firebase/database'
 export default {
     name: 'login',
     data(){
         return{
             errors: [],
-            loading: false
+            loading: false,
+            usersRef: firebase.database().ref('users')
         }
     },
     computed:{
@@ -52,7 +54,10 @@ export default {
             firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
             .then((response) => {
                 // console.log(response.user);
-
+                
+                //pass user to save in db
+                this.saveUserToUserRef(response.user)
+                
                 //dispatch setUser action
                 this.$store.dispatch('setUser', response.user);
                 this.$router.push('/');
@@ -61,12 +66,19 @@ export default {
                 this.loading = false;
             })
         },
+        //save user to database
+        saveUserToUserRef(user){
+            return this.usersRef.child(user.uid).set({
+                name: user.displayName,
+                avatar: user.photoURL
+            })
+        },
         loginWithFacebook(){
             this.loading = true;
             this.errors = [];
             firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
             .then((response) => {
-                // console.log(response.user);
+                 // console.log(response.user);
 
                 //dispatch setUser action
                 this.$store.dispatch('setUser', response.user);
