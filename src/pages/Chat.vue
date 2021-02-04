@@ -19,7 +19,7 @@ import Sidebar from '../sidebar/Sidebar'
 export default {
     name: 'chat',
 
-    components:{SidebarSidebar}
+    components:{Sidebar}
 }
 </script>
 

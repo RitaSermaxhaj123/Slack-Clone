@@ -12,15 +12,23 @@
         <button @click="logout" class="btn btn-outline-light">
             Logout
         </button>     
+        
+        <hr style="border: 1px solid #f1e0c5;">
+
+        <channels> </channels>
     </div>
 </template>
 
 <script>
 import auth from 'firebase/auth'
 import {mapGetters} from 'vuex'
+import Channels from './Channels'
+
 export default {
     name: 'sidebar',
-
+    
+    components: {Channels},
+    
     computed:{
         ...mapGetters(['currentUser'])
     },
