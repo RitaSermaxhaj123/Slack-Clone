@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <input type="text" id="new_channel" name="new_channel"
+                        <input v-model="new_channel" type="text" id="new_channel" name="new_channel"
                         placeholder="Channel name" class="form-control" >
                     </div>
                 </form>
@@ -24,7 +24,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add channel</button>
+                <button @click="addChannel" type="button" class="btn btn-primary">Add channel</button>
             </div>
             </div>
         </div>
@@ -35,13 +35,29 @@
 </template>
 
 <script>
+import database from 'firebase/database'
+
     export default{
         name: 'channels',
         
+        data(){
+            return{
+                new_channel:'',
+                errors:[],
+                channelRef: firebase.database().ref('channels')
+            }
+        },
         methods:{
             openModal(){
                 $('#channelModal').appendTo("body").modal('show');
-            }
+            },
+            //add a channel
+            addChannel(){
+                // get key to the newly creating channels
+                let key = this.channelRef.push().key
+                console.log('newly creating channel key: ',key)
+                
+           }
         }
     
     }
