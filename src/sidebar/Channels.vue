@@ -19,6 +19,10 @@
                         <input v-model="new_channel" type="text" id="new_channel" name="new_channel"
                         placeholder="Channel name" class="form-control" >
                     </div>
+                    <!--errorrs -->
+                    <ul class="list-group" v-if="hasErrors">
+                        <li class="list-group-item text-danger" v-for="error in errors">{{ error}}</li>
+                    </ul>
                 </form>
             </div>
 
@@ -47,6 +51,11 @@ import database from 'firebase/database'
                 channelRef: firebase.database().ref('channels')
             }
         },
+        computed:{
+        hasErrors(){
+            return this.errors.length > 0
+        }
+        },
         methods:{
             openModal(){
                 $('#channelModal').appendTo("body").modal('show');
@@ -56,7 +65,19 @@ import database from 'firebase/database'
                 // get key to the newly creating channels
                 let key = this.channelRef.push().key
                 console.log('newly creating channel key: ',key)
-                
+                //minimum info needed to create a new channel
+                // id and name
+                let newChannel={id: key, name:this.new_channel}
+                // create new channel
+                this.channelRef.child(key).update(newChannel)
+                .then(() => {
+                    this.new_channel=''
+                    $("#channelModal").modal('hide')
+                })
+                //error handling
+                .catch((error)=>{
+                    this.errors.push(error.message)
+                })
            }
         }
     
