@@ -21,7 +21,7 @@
                     </div>
                     <!--errorrs -->
                     <ul class="list-group" v-if="hasErrors">
-                        <li class="list-group-item text-danger" v-for="error in errors">{{ error}}</li>
+                        <li class="list-group-item text-danger" v-for="error in errors"  v-bind:key="error">{{ error}}</li>
                     </ul>
                 </form>
             </div>
@@ -78,8 +78,22 @@ import database from 'firebase/database'
                 .catch((error)=>{
                     this.errors.push(error.message)
                 })
+           },
+           addListeners(){
+               this.channelRef.on('child_added', snapshot =>{
+                  // console.log('listening channelsRef on child_added:', snapshot.val())
+                    this.channels.push(snapshot.val())
+               })
+           },
+           detachListeners(){
+               this.channelRef.off()
            }
+        },
+        mounted(){
+            this.addListeners()
+        },
+        beforeDestroy(){
+            this.detachListeners()
         }
-    
     }
 </script>
