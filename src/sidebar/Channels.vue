@@ -1,6 +1,17 @@
 <template>
     <div>
         <button @click="openModal" class="btn btn-outline-primary">Add Channel</button>
+        <!-- show list of channels -->
+        <div class="mt-4">
+            <button @click.prevent="" v-for="(channel, key) in channels"
+                :key="key"
+                class="list-group-item list-group-item-action"
+                type="button">
+            {{channel.name}}
+        </button>
+
+        
+        </div>        
         <!-- Modal -->
         <div class="modal fade" id="channelModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -48,7 +59,8 @@ import database from 'firebase/database'
             return{
                 new_channel:'',
                 errors:[],
-                channelRef: firebase.database().ref('channels')
+                channelRef: firebase.database().ref('channels'),
+                channels: []
             }
         },
         computed:{
@@ -62,6 +74,7 @@ import database from 'firebase/database'
             },
             //add a channel
             addChannel(){
+                this.errors=[]
                 // get key to the newly creating channels
                 let key = this.channelRef.push().key
                 console.log('newly creating channel key: ',key)
@@ -97,3 +110,4 @@ import database from 'firebase/database'
         }
     }
 </script>
+  
