@@ -10,7 +10,7 @@
             {{channel.name}}
         </button>
 
-        
+
         </div>        
         <!-- Modal -->
         <div class="modal fade" id="channelModal">
@@ -60,7 +60,8 @@ import database from 'firebase/database'
                 new_channel:'',
                 errors:[],
                 channelRef: firebase.database().ref('channels'),
-                channels: []
+                channels: [],
+                channel: null
             }
         },
         computed:{
@@ -96,7 +97,15 @@ import database from 'firebase/database'
                this.channelRef.on('child_added', snapshot =>{
                   // console.log('listening channelsRef on child_added:', snapshot.val())
                     this.channels.push(snapshot.val())
-               })
+              
+              //set current channel
+              if(this.channels.length > 0){
+                  //set the first one as current channel
+                  this.channel=this.channels[0]
+                  //dispatch current channel to store
+                  this.$store.dispatch("setCurrentChannel", this.channel) //pick the first one
+              }
+                })
            },
            detachListeners(){
                this.channelRef.off()
