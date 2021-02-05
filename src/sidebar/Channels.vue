@@ -6,7 +6,7 @@
             <button @click.prevent="" v-for="(channel, key) in channels"
                 :key="key"
                 class="list-group-item list-group-item-action"
-                type="button">
+                type="button" :class="{'active': setActiveChannel(channel)}" @click="changeChannel(channel)">
             {{channel.name}}
         </button>
 
@@ -51,6 +51,7 @@
 
 <script>
 import database from 'firebase/database'
+import {mapGetters} from 'vuex'
 
     export default{
         name: 'channels',
@@ -65,6 +66,7 @@ import database from 'firebase/database'
             }
         },
         computed:{
+        ...mapGetters(['currentChannel']),
         hasErrors(){
             return this.errors.length > 0
         }
@@ -106,6 +108,15 @@ import database from 'firebase/database'
                   this.$store.dispatch("setCurrentChannel", this.channel) //pick the first one
               }
                 })
+           },
+           
+           // set active channel
+           setActiveChannel(channel){
+               return channel.id === this.currentChannel.id
+           },
+           //changeChanne
+           changeChannel(channel){
+               this.$store.dispatch("setCurrentChannel", channel)
            },
            detachListeners(){
                this.channelRef.off()
