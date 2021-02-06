@@ -10,7 +10,7 @@
 <script>
 import SingleMessage from './SingleMessage'
 import MessageForm from './MessageForm'
-import database from 'firebase/database'
+//import database from 'firebase/database'
 
 export default {
     name: 'messages',

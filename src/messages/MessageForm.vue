@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     name: 'message-form',
 
@@ -27,9 +29,23 @@ export default {
             errors:[]
         }
     },
+    computed:{
+        ...mapGetters(['currentChannel', 'currentUser'])
+    },
     methods:{
         sendMessage() {
-            console.log('send')
+            // construct new messages object
+            let newMessage ={
+                content: this.message,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                user: { 
+                     name: this.currentUser.displayName,
+                    avatar:this.currentUser.photoURL,
+                    id: this.currentUser.uid
+                }
+            }
+            // use some validation
+            
         }
     }
 
