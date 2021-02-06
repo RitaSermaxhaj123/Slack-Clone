@@ -1,6 +1,19 @@
 <template>
-    <div>
-        form
+    <div class="p-2">
+        <div class="messageform">
+            <form>
+                <div class="input-group mb-2">
+                    <input name="message" id="message" placeholder="write something" class="form-control mb-4" autofocus>
+                
+                <div class="input-group-appeng">
+                    <button class="btn btn-primary mt-3" type="button">&nbsp; Send &nbsp;</button>
+                <!-- </div>
+                <div class="input-group append"> -->
+                    <button class="btn btn-warning mt-3" type="button">Upload</button>
+                </div>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -9,3 +22,27 @@ export default {
     name: 'message-form'
 }
 </script>
+<style scoped>
+    *{
+        margin: 0;
+    }
+    .messageform{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 67%;
+        z-index: 100;
+        color: white;
+        text-align: center;
+        margin-bottom:-16px ;
+        margin-left: 33.3%;
+    }
+    input,button{
+        height: 50px;
+        top: 18px;
+        
+    }
+    button{
+        margin-right: -5px;
+    }
+</style>
