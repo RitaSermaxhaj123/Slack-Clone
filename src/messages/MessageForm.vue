@@ -45,7 +45,19 @@ export default {
                 }
             }
             // use some validation
-            
+            if(this.currentChannel !==null){
+                if(this.message.length > 0){
+                    this.$parent.messagesRef.child(this.currentChannel.id).push().set(newMessage)
+                    .then(() => {
+                        //
+                    })
+                    .catch((error) => {
+                        this.errors.push(error.message)
+                    })
+                    //reset message
+                    this.message=''
+                }
+            }
         }
     }
 
