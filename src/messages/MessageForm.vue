@@ -3,10 +3,10 @@
         <div class="messageform">
             <form>
                 <div class="input-group mb-2">
-                    <input name="message" id="message" placeholder="write something" class="form-control mb-4" autofocus>
+                    <input v-model.trim="message" name="message" id="message" placeholder="write something" class="form-control mb-4" autofocus>
                 
                 <div class="input-group-appeng">
-                    <button class="btn btn-primary mt-3" type="button">&nbsp; Send &nbsp;</button>
+                    <button @click="sendMessage" class="btn btn-primary mt-3" type="button">&nbsp; Send &nbsp;</button>
                 <!-- </div>
                 <div class="input-group append"> -->
                     <button class="btn btn-warning mt-3" type="button">Upload</button>
@@ -19,7 +19,20 @@
 
 <script>
 export default {
-    name: 'message-form'
+    name: 'message-form',
+
+    data(){
+        return{
+            message: '',
+            errors:[]
+        }
+    },
+    methods:{
+        sendMessage() {
+            console.log('send')
+        }
+    }
+
 }
 </script>
 <style scoped>
@@ -39,8 +52,7 @@ export default {
     }
     input,button{
         height: 50px;
-        top: 18px;
-        
+        top: 16px;   
     }
     button{
         margin-right: -5px;
