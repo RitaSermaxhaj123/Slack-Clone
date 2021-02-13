@@ -1,6 +1,18 @@
 <template>
     <div>
-        users
+        <div class="text-light">
+            <h4>Users</h4>
+            <ul class="nav flex-column">
+                <li v-for="user in users" :key="user.uid">
+                <span>
+                    <img :src="user.avatar" height="20" class="img rounded-circle"/>
+                    <span class="text-primary">
+                        {{user.name}}
+                    </span>
+                </span>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 <script>
