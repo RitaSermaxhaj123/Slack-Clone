@@ -43,6 +43,18 @@ export default {
                 }
             })
 
+            this.presenceRef.on('child_added',snapshot =>{
+                if(this.currentUser.uid !== snapshot.key){
+                    this.addStatusToUser(snapshot.key)
+                }
+            })
+
+            this.presenceRef.on('child_removed',snapshot =>{
+                if(this.currentUser.uid !== snapshot.key){
+                    this.addStatusToUser(snapshot.key,false)
+                }
+            })
+
             this.connectedRef.on('value', snapshot=>{
                 //console.log('connected user:', snapshot)
                 if(snapshot.val() === true){
@@ -51,7 +63,19 @@ export default {
                     ref.onDisconnect().remove()
                 }
             })
+
+            addStatusToUser(userId, connected = true){
+                let index = this.users.findIndex(user => user.uid === userId)
+                if(index !== -1){
+                    connected === true ? this.user[index].status = 'online' : this.users[index] = 'offline'
+                }
+            }
         },
+
+        idOnline(user){
+            return user.status = 'online'
+        }
+
         detachListeners(){
         
         }
