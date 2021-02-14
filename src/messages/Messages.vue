@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>{{channelName}}</h2>
         <!-- show single messages -->
         <single-message :messages="messages"></single-message>
         <!-- message form -->
@@ -28,7 +29,12 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['currentChannel','currentUser','isPrivate'])
+        ...mapGetters(['currentChannel','currentUser','isPrivate']),
+        channelName(){
+            if(this.channel !== null){
+                return this.isPrivate ? '@ ' + this.channel.name : '# ' + this.channel.name
+            }
+        }
     },
     watch:{
         currentChannel : function(){
