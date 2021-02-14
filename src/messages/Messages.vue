@@ -23,7 +23,8 @@ export default {
             messagesRef: firebase.database().ref('messages'),
             privateMessagesRef:firebase.database().ref('privateMessages'),
             messages: [],
-            channel: ''
+            channel: null,
+            listeners:[]
         }
     },
     computed: {
@@ -31,7 +32,8 @@ export default {
     },
     watch:{
         currentChannel : function(){
-            this.messages = []
+            //this.messages = []
+            this.detachListeners()
             this.addListeners()
             this.channel = this.currentChannel
         }
@@ -47,11 +49,28 @@ export default {
                             $("html,body").scrollTop($(document).height());
                         })
             })
+
+            this.addToListeners(this.currentChannel.id, ref, 'child_added');
         },
-        detachListeners(){
-            if(this.channel !== null){
-                this.messagesRef.child(this.channel.id).off()
+
+        addToListeners(id, ref, event){
+            let index = this.listeners.findIndex(el => {
+                return el.id === id && el.ref === ref && el.event === event
+            })
+            if(index === -1){
+                this.listeners.push({id:id, ref:ref, event:event})
             }
+        },
+
+        detachListeners(){
+            this.listeners.forEach(listener =>{
+                listener.ref.child(listener.id).off(listener.event)
+            })
+            this.listeners = []
+            this.messages = []
+            // if(this.channel !== null){
+            //     this.messagesRef.child(this.channel.id).off()
+            // }
         },
         getMessagesRef(){
             if(this.isPrivate){
