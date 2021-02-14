@@ -47,7 +47,7 @@ export default {
             // use some validation
             if(this.currentChannel !==null){
                 if(this.message.length > 0){
-                    this.$parent.messagesRef.child(this.currentChannel.id).push().set(newMessage)
+                    this.$parent.getMessagesRef().child(this.currentChannel.id).push().set(newMessage)
                     .then(() => {
                         this.$nextTick(()=>{
                             $("html,body").scrollTop($(document).height());

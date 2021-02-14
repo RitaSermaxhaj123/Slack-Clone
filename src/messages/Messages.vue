@@ -21,12 +21,13 @@ export default {
     data(){
         return{
             messagesRef: firebase.database().ref('messages'),
+            privateMessagesRef:firebase.database().ref('privateMessages'),
             messages: [],
             channel: ''
         }
     },
     computed: {
-        ...mapGetters(['currentChannel'])
+        ...mapGetters(['currentChannel','currentUser','isPrivate'])
     },
     watch:{
         currentChannel : function(){
@@ -37,9 +38,11 @@ export default {
     },
     methods: {
         addListeners(){
-            this.messagesRef.child(this.currentChannel.id).on('child_added', (snapshot) => {
-                this.messages.push(snapshot.val())
-
+            let ref = this.getMessagesRef()
+            ref.child(this.currentChannel.id).on('child_added', (snapshot) => {
+                let message = snapshot.val()
+                message['id'] = snapshot.key
+                this.messages.push(message)
                 this.$nextTick(()=>{
                             $("html,body").scrollTop($(document).height());
                         })
@@ -48,6 +51,14 @@ export default {
         detachListeners(){
             if(this.channel !== null){
                 this.messagesRef.child(this.channel.id).off()
+            }
+        },
+        getMessagesRef(){
+            if(this.isPrivate){
+                return this.privateMessagesRef
+            }
+            else{
+                return this.messagesRef
             }
         }
     },
