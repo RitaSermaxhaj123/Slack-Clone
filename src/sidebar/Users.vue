@@ -6,7 +6,7 @@
                 <li v-for="user in users" :key="user.uid">
                 <span>
                     <img :src="user.avatar" height="20" class="img rounded-circle"/>
-                    <span class="text-primary">
+                    <span :class="{'text-primary' : isOnline(user), 'text-danger': !isOnline(user)}">
                         {{user.name}}
                     </span>
                 </span>
@@ -64,20 +64,28 @@ export default {
                 }
             })
 
-            addStatusToUser(userId, connected = true){
+        },
+        addStatusToUser(userId, connected = true){
                 let index = this.users.findIndex(user => user.uid === userId)
                 if(index !== -1){
-                    connected === true ? this.user[index].status = 'online' : this.users[index] = 'offline'
+                    if(connected === true){
+                        this.users[index].status = 'online'
+                    }
+                    else{
+                        this.users[index].status = 'offline'
+                    }
+                    //connected === true ? this.user[index].status = 'online' : this.users[index] = 'offline'
                 }
-            }
+            },
+
+        isOnline(user){
+            return user.status == 'online'
         },
 
-        idOnline(user){
-            return user.status = 'online'
-        }
-
         detachListeners(){
-        
+            this.usersRef.off()
+            this.presenceRef.off()
+            this.connectedRef.off()
         }
     },
     mounted(){
