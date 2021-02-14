@@ -116,6 +116,7 @@ import {mapGetters} from 'vuex'
            },
            //changeChanne
            changeChannel(channel){
+               this.$store.dispatch('setPrivate',false)
                this.$store.dispatch("setCurrentChannel", channel)
            },
            detachListeners(){
