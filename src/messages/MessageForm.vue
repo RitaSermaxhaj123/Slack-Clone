@@ -1,7 +1,7 @@
 <template>
     <div class="p-2">
         <div class="messageform">
-            <form>
+            <form @submit.prevent="sendMessage">
                 <div class="input-group mb-2">
                     <input v-model.trim="message" name="message" id="message" placeholder="write something" class="form-control mb-4" autofocus>
                 
@@ -39,7 +39,7 @@ export default {
                 content: this.message,
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 user: { 
-                     name: this.currentUser.displayName,
+                    name: this.currentUser.displayName,
                     avatar:this.currentUser.photoURL,
                     id: this.currentUser.uid
                 }
@@ -49,7 +49,9 @@ export default {
                 if(this.message.length > 0){
                     this.$parent.messagesRef.child(this.currentChannel.id).push().set(newMessage)
                     .then(() => {
-                        //
+                        this.$nextTick(()=>{
+                            $("html,body").scrollTop($(document).height());
+                        })
                     })
                     .catch((error) => {
                         this.errors.push(error.message)
