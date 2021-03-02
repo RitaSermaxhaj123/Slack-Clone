@@ -22,6 +22,8 @@
 <script>
 import {mapGetters} from 'vuex'
 import FileModal from './FileModal'
+import uuidV4 from 'uuid/v4'
+import storage  from 'firebase/storage'
 
 export default {
     name: 'message-form',
@@ -30,11 +32,14 @@ export default {
     data(){
         return{
             message: '',
-            errors:[]
+            errors:[],
+            storageRef: firebase.storage().ref(),
+            uploadTask: null,
+            uploadState: null
         }
     },
     computed:{
-        ...mapGetters(['currentChannel', 'currentUser'])
+        ...mapGetters(['currentChannel', 'currentUser', 'isPrivate'])
     },
     methods:{
         sendMessage() {
@@ -65,6 +70,36 @@ export default {
                 }
             }
         },
+        uploadFile(file, metadata){
+            if(file===null) return false;
+            let pathToUpload = this.currentChannel.id
+            let ref = this.$$parent.getMessagesRef()
+            let filePath = this.getPath + '/' + uuidV4 +'.jpg'
+
+            this.uploadTask = this.storageRef.child(filePath).put(fike, metadata)
+            this.uploadState = "Uploading"
+
+            // on upload state change
+            this.uploadTask.on('state_changed', snapshot => {
+                // upload in progress
+
+            }, error => {
+                // error
+            }, () => {
+                // upload finished
+                //recover the url of file
+            })
+        },
+
+        // folder directory to store files in firebase storage
+        getPath(){
+            if(this.isPrivate){
+                return 'chat/private/'+ this.currentChannel.id
+            } else{
+                return 'chat/public'
+            }
+        },
+
         openFileModal(){
            $("#fileModal").appendTo("body").modal('show');
         //    console.log('openfilemodal'); 
