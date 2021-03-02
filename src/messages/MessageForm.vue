@@ -1,6 +1,12 @@
 <template>
     <div class="p-2">
         <div class="messageform">
+            <!-- Progress bar -->
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar">
+                    Upload
+                </div>
+            </div>
             <form @submit.prevent="sendMessage">
                 <div class="input-group mb-2">
                     <input v-model.trim="message" name="message" id="message" placeholder="write something" class="form-control mb-4" autofocus>
@@ -82,7 +88,8 @@ export default {
             // on upload state change
             this.uploadTask.on('state_changed', snapshot => {
                 // upload in progress
-
+                let percent = (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+                $(".progress-bar").css("width", percent+'%')
             }, error => {
                 // error
             }, () => {
@@ -123,7 +130,7 @@ export default {
         z-index: 100;
         color: white;
         text-align: center;
-        margin-bottom:-16px ;
+        margin-bottom:-20px ;
         margin-left: 33.3%;
     }
     input,button{
@@ -132,5 +139,8 @@ export default {
     }
     button{
         margin-right: -5px;
+    }
+    .progress{
+        margin-bottom: -16px ;
     }
 </style>
