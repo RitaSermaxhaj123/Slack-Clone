@@ -20,7 +20,7 @@
                 </div>
             </form>
             <!-- file modal -->
-            <file-modal></file-modal>
+            <file-modal ref="file_modal"></file-modal>
         </div>
     </div>
 </template>
@@ -112,7 +112,8 @@ export default {
             }, () => {
                 // upload finished
                 this.uploadState = 'Done'
-
+                // reset form
+                this.$refs.file_modal.resetForm()
                 //recover the url of file
             })
         },
