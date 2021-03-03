@@ -32,17 +32,21 @@ import mime from 'mime-types'
     
     export default {
         name: 'file-modal',
+
         data() {
             return {
                 file: null,
                 authorized: ['image/jpeg', 'image/jpg', 'image/png']
             }
         },
+
         methods: {
+
             isValid(filename) {
                 let index = this.authorized.indexOf(mime.lookup(filename))
                 return index !== -1
             },
+
             addFile(e) {
                 let files = e.target.files
                 console.log(files)
@@ -50,8 +54,9 @@ import mime from 'mime-types'
                     this.file = files[0]
                 }
             },
-        sendFile(){
-            if(this.file !== null) {
+
+            sendFile(){
+                if(this.file !== null) {
                     if(this.isValid(this.file.name)) {
                         let metadata = {contentType: mime.lookup(this.file.name)}
                         this.$parent.uploadFile(this.file, metadata)

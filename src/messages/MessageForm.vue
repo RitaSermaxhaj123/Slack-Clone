@@ -28,8 +28,8 @@
 <script>
 import {mapGetters} from 'vuex'
 import FileModal from './FileModal'
-import uuidV4 from 'uuid/v4'
-import storage  from 'firebase/storage'
+import uuidV4 from 'uuid/V4'
+import storage from 'firebase/storage'
 
 export default {
     name: 'message-form',
@@ -89,34 +89,35 @@ export default {
                 }
             }
         },
-        uploadFile(file, metadata){
-            if(file === null) return false;
-
-            let pathToUpload = this.currentChannel.id
-            let ref = this.$parent.getMessagesRef()
-            let filePath = this.getPath() + '/' + uuidV4 +'.jpg'
-
-            this.uploadTask = this.storageRef.child(filePath).put(file, metadata)
-            this.uploadState = "Uploading"
-
-            // on upload state change
-            this.uploadTask.on('state_changed', snapshot => {
+        uploadFile(file, metadata) {
+            // console.log('file: ', file, ' metadata: ', metadata)
+            if(file === null) return false
+              let pathToUpload = this.currentChannel.id
+              let ref = this.$parent.getMessagesRef()
+              let filePath = this.getPath() + '/' + uuidV4() + '.jpg'
+              this.uploadTask = this.storageRef.child(filePath).put(file, metadata)
+              this.uploadState = "Uploading"
+              // on upload state change
+              this.uploadTask.on('state_changed', snapshot => {
                 // upload in progress
                 let percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 $(".progress-bar").css("width", percent+'%')
-            }, error => {
+              }, error => {
                 // error
                 this.errors.push(error.message)
                 this.uploadState = 'Error'
-                this.uploadTask = null;
-            }, () => {
+                this.uploadTask = null
+                // reset form
+                this.$refs.file_modal.resetForm()
+              }, () => {
                 // upload finished
                 this.uploadState = 'Done'
                 // reset form
                 this.$refs.file_modal.resetForm()
-                //recover the url of file
-            })
-        },
+                // recover the url of file
+
+              })
+          },
 
         // folder directory to store files in firebase storage
         getPath(){
@@ -129,7 +130,7 @@ export default {
 
         openFileModal(){
            $("#fileModal").appendTo("body").modal('show');
-        //    console.log('openfilemodal'); 
+            console.log('openfilemodal'); 
         }
     },
     mounted(){
