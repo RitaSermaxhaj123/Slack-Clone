@@ -77,18 +77,19 @@ export default {
             }
         },
         uploadFile(file, metadata){
-            if(file===null) return false;
-            let pathToUpload = this.currentChannel.id
-            let ref = this.$$parent.getMessagesRef()
-            let filePath = this.getPath + '/' + uuidV4 +'.jpg'
+            if(file === null) return false;
 
-            this.uploadTask = this.storageRef.child(filePath).put(fike, metadata)
+            let pathToUpload = this.currentChannel.id
+            let ref = this.$parent.getMessagesRef()
+            let filePath = this.getPath() + '/' + uuidV4 +'.jpg'
+
+            this.uploadTask = this.storageRef.child(filePath).put(file, metadata)
             this.uploadState = "Uploading"
 
             // on upload state change
             this.uploadTask.on('state_changed', snapshot => {
                 // upload in progress
-                let percent = (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+                let percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 $(".progress-bar").css("width", percent+'%')
             }, error => {
                 // error
