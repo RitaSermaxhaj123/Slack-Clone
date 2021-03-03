@@ -14,8 +14,7 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <input @change="addFile" type="file" id="file" name="file"
-                         class="form-control" >
+                        <input @change="addFile" type="file" id="file" name="file" class="form-control" >
                     </div>
                 </form>
             </div>

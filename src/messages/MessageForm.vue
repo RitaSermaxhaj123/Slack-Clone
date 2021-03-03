@@ -2,9 +2,9 @@
     <div class="p-2">
         <div class="messageform">
             <!-- Progress bar -->
-            <div class="progress">
+            <div class="progress" v-if="uploadState !== null">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar">
-                    Upload
+                    {{uploadLabel}}
                 </div>
             </div>
             <form @submit.prevent="sendMessage">
@@ -45,7 +45,20 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['currentChannel', 'currentUser', 'isPrivate'])
+        ...mapGetters(['currentChannel', 'currentUser', 'isPrivate']),
+
+        //upload state
+        uploadLabel(){
+            switch(this.uploadState){
+                case 'Uploading': return 'Uploading in progress'
+                    break
+                case 'Error': return 'Error occured'
+                    break
+                case 'Done': return 'Upload completed'
+                    break
+                default:return ''
+            }
+        }
     },
     methods:{
         sendMessage() {
@@ -93,8 +106,13 @@ export default {
                 $(".progress-bar").css("width", percent+'%')
             }, error => {
                 // error
+                this.errors.push(error.message)
+                this.uploadState = 'Error'
+                this.uploadTask = null;
             }, () => {
                 // upload finished
+                this.uploadState = 'Done'
+
                 //recover the url of file
             })
         },
