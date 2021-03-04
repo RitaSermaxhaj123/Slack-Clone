@@ -63,32 +63,54 @@ export default {
     methods:{
         sendMessage() {
             // construct new messages object
-            let newMessage ={
-                content: this.message,
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                user: { 
-                    name: this.currentUser.displayName,
-                    avatar:this.currentUser.photoURL,
-                    id: this.currentUser.uid
-                }
-            }
+            // let newMessage ={
+            //     content: this.message,
+            //     timestamp: firebase.database.ServerValue.TIMESTAMP,
+            //     user: { 
+            //         name: this.currentUser.displayName,
+            //         avatar:this.currentUser.photoURL,
+            //         id: this.currentUser.uid
+            //     }
+            // }
+
             // use some validation
-            if(this.currentChannel !==null){
-                if(this.message.length > 0){
-                    this.$parent.getMessagesRef().child(this.currentChannel.id).push().set(newMessage)
-                    .then(() => {
-                        this.$nextTick(()=>{
-                            $("html,body").scrollTop($(document).height());
-                        })
-                    })
-                    .catch((error) => {
-                        this.errors.push(error.message)
-                    })
-                    //reset message
-                    this.message=''
-                }
+            if(this.currentChannel !== null) {
+              if(this.message.length > 0) {
+                this.$parent.getMessagesRef().child(this.currentChannel.id).push().set(this.createMessage())
+                .then(() => {
+                  this.$nextTick(() => {
+                    $("html, body").scrollTop($(document).height());
+                  })
+                })
+                .catch((error) => {
+                  this.errors.push(error.message)
+                })
+                // reset message
+                this.message = ''
+              }
             }
-        },
+          },
+
+          createMessage(fileUrl = null) {
+            // create message object to push to firebase
+            let message = {
+              timestamp: firebase.database.ServerValue.TIMESTAMP,
+              user: {
+                name: this.currentUser.displayName,
+                avatar: this.currentUser.photoURL,
+                id: this.currentUser.uid
+              }
+            }
+            if(fileUrl == null) {
+              // either send message with content
+              message['content'] = this.message
+            } else {
+              // or send the message with image
+              message['image'] = fileUrl
+            }
+            return message
+          },
+
         uploadFile(file, metadata) {
             // console.log('file: ', file, ' metadata: ', metadata)
             if(file === null) return false
@@ -115,8 +137,20 @@ export default {
                 // reset form
                 this.$refs.file_modal.resetForm()
                 // recover the url of file
-
+                let fileUrl = this.uploadTask.snapshot.ref.getDownloadURL().then(fileUrl => {
+                  this.sendFileMessage(fileUrl, ref, pathToUpload)
+                })
               })
+          },
+
+        sendFileMessage(fileUrl, ref, pathToUpload) {
+            ref.child(pathToUpload).push().set(this.createMessage(fileUrl)).then(() => {
+              this.$nextTick(() => {
+                $("html, body").scrollTop($(document).height())
+              })
+            }).catch(error => {
+              this.errors.push(error.message)
+            })
           },
 
         // folder directory to store files in firebase storage
