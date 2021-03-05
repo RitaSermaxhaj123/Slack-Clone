@@ -3,7 +3,7 @@
         <div class="messageform">
             <!-- Progress bar -->
             <div class="progress" v-if="uploadState !== null">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar">
+                <div class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar">
                     {{uploadLabel}}
                 </div>
             </div>
@@ -15,7 +15,7 @@
                     <button @click="sendMessage" class="btn btn-primary mt-3" type="button">&nbsp; Send &nbsp;</button>
                 <!-- </div>
                 <div class="input-group append"> -->
-                    <button @click.prevent="openFileModal" class="btn btn-warning mt-3" type="button">Upload</button>
+                    <button @click.prevent="openFileModal" :disabled="uploadState == 'Uploading'" class="btn btn-warning mt-3" type="button">Upload</button>
                 </div>
                 </div>
             </form>
@@ -41,7 +41,7 @@ export default {
             errors:[],
             storageRef: firebase.storage().ref(),
             uploadTask: null,
-            uploadState: null
+            uploadState: null,
         }
     },
     computed:{
@@ -134,12 +134,14 @@ export default {
               }, () => {
                 // upload finished
                 this.uploadState = 'Done'
+                
                 // reset form
                 this.$refs.file_modal.resetForm()
                 // recover the url of file
                 let fileUrl = this.uploadTask.snapshot.ref.getDownloadURL().then(fileUrl => {
                   this.sendFileMessage(fileUrl, ref, pathToUpload)
                 })
+                
               })
           },
 
