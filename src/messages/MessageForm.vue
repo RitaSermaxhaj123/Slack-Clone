@@ -169,8 +169,14 @@ export default {
     },
     mounted(){
         $("hmtl, body").scrollTop($(document).height());
-    }
+    },
 
+    beforeDestroy() {
+          if(this.uploadTask !== null) {
+            this.uploadTask.cancel()
+            this.uploadTask = null
+          }
+        }
 }
 </script>
 <style scoped>
