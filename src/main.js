@@ -6,6 +6,7 @@ import router from './router'
 import firebase from 'firebase/app'
 import store from './store'
 import auth from 'firebase/auth'
+import vuetify from '../plugins/vuetify'
 
 Vue.config.productionTip = false
 
@@ -29,6 +30,7 @@ const unsubscribe = firebase.auth().onAuthStateChanged(user=>{
 
   new Vue({
     el: '#app',
+    vuetify,
     router,
     store,
     components: { App },

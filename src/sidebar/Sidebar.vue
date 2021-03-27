@@ -9,10 +9,17 @@
 
         <hr style="border: 1px solid #f1e0c5;">
 
-        <button @click="logout" class="btn btn-outline-light">
+        <v-btn
+      class="ma-2"
+      outlined
+      color="#B3E5FC"
+      @click="logout"   
+    >
+      Logout
+    </v-btn>
+        <!-- <button @click="logout" class="btn btn-outline-light">
             Logout
-        </button>     
-        
+        </button>      -->
         <hr style="border: 1px solid #f1e0c5;">
 
         <channels> </channels>
@@ -52,3 +59,8 @@ export default {
     }
 }
 </script>
+<style>
+span{
+    color:white;
+}
+</style>

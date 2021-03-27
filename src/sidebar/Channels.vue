@@ -1,8 +1,16 @@
 <template>
   <div>
-    <button @click="openModal" class="btn btn-outline-primary">
+            <v-btn
+      class="ma-2"
+      outlined
+      color="#007bff"
+      @click="openModal"
+    >
       Add Channel
-    </button>
+    </v-btn>
+    <!-- <button @click="openModal" class="btn btn-outline-primary">
+      Add Channel
+    </button> -->
     <!-- show list of channels -->
     <div class="mt-4">
       <button
@@ -29,7 +37,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-dark">Modal title</h5>
+            <h5 class="modal-title text-dark">Channel Name</h5>
             <button
               type="button"
               class="close"
@@ -66,16 +74,23 @@
           </div>
 
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button @click="addChannel" type="button" class="btn btn-primary">
-              Add channel
-            </button>
+                <v-btn
+                rounded
+                color="primary"
+                dark
+                data-dismiss="modal"
+              >
+                Cancel
+              </v-btn>
+
+                <v-btn
+                rounded
+                color="#1976D2"
+                @click="addChannel"
+                dark
+              >
+                Add Channel
+              </v-btn>
           </div>
         </div>
       </div>
