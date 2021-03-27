@@ -2,13 +2,14 @@
   <div class="p-2">
     <div class="messageform">
       <!-- Progress bar -->
-      <div class="progress" v-if="uploadState !== null">
+      <div class="progress" v-if="uploadState !== null" >
         <div
           class="progress-bar progress-bar-striped progress-bar-animated"
           role="progressbar"
         >
           {{ uploadLabel }}
         </div>
+  
       </div>
       <form @submit.prevent="sendMessage">
         <div class="input-group mb-2">
@@ -106,16 +107,6 @@ export default {
   },
   methods: {
     sendMessage() {
-      // construct new messages object
-      // let newMessage ={
-      //     content: this.message,
-      //     timestamp: firebase.database.ServerValue.TIMESTAMP,
-      //     user: {
-      //         name: this.currentUser.displayName,
-      //         avatar:this.currentUser.photoURL,
-      //         id: this.currentUser.uid
-      //     }
-      // }
 
       // use some validation
       if (this.currentChannel !== null) {
@@ -265,7 +256,9 @@ button {
   margin-right: -5px;
 }
 .progress {
-  margin-bottom: -16px;
+  margin-bottom: -10px;
+  margin-left:4px;
+
 }
 .v-btn {
   min-height: 50px;

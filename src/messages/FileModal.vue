@@ -14,14 +14,29 @@
             <div class="modal-body">
                 <form class="form">
                     <div class="form-group">
+                        
                         <input @change="addFile" type="file" id="file" name="file" class="form-control" >
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button @click="sendFile" type="button" class="btn btn-primary">Send File</button>
+                         <v-btn
+                rounded
+                color="primary"
+                dark
+                data-dismiss="modal"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                rounded
+                color="#1976D2"
+                @click="sendFile"
+                dark
+              >
+                Send File
+              </v-btn>
             </div>
             </div>
         </div>
