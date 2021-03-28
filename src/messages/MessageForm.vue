@@ -100,6 +100,8 @@ export default {
         case "Done":
           return "Upload completed";
           break;
+        // case 'test':
+        //   return '';
         default:
           return "";
       }
@@ -186,6 +188,7 @@ export default {
             .then((fileUrl) => {
               this.sendFileMessage(fileUrl, ref, pathToUpload);
             });
+           setTimeout(() => { $(".progress").hide(); }, 2000);
         }
       );
     },
