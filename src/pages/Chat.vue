@@ -31,9 +31,14 @@ export default {
         float: left;
         position: fixed;
         height: 100%;
+        margin-left: -9px;
         background-color: #2e0014;
         padding-top: 2em;
         /* overflow: scroll; */
+        position:fixed; 
+        overflow-y:scroll; 
+        top:0; 
+        bottom:0;
     }
     .content{
         width:66%;

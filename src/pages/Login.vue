@@ -33,6 +33,7 @@
 <script>
 import auth from 'firebase/auth'
 import database from 'firebase/database'
+ import {v4 as uuidv4} from 'uuid'
 export default {
     name: 'login',
     data(){
@@ -70,7 +71,8 @@ export default {
         saveUserToUserRef(user){
             return this.usersRef.child(user.uid).set({
                 name: user.displayName,
-                avatar: user.photoURL
+                avatar: user.photoURL,
+                uid: uuidv4()
             })
         },
         loginWithFacebook(){

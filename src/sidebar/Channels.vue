@@ -1,6 +1,6 @@
 <template>
   <div>
-            <v-btn
+     <v-btn
       class="ma-2"
       outlined
       color="#007bff"
@@ -23,13 +23,21 @@
         @click="changeChannel(channel)"
       >
         {{ channel.name }}
-        <span
+        <!-- <span
           v-if="
-            getNotification(channel) > 0 && channel.id !== currentChannel.id
-          "
-          class="float-right"
-          >{{ getNotification(channel) }}</span
-        >
+            getNotification(channel) > 0 && channel.id !== currentChannel.id"
+            class="float-right" style="color:black;">
+            {{ getNotification(channel) }}</span> -->
+
+                        <v-chip
+              v-if="getNotification(channel) > 0 && channel.id !== currentChannel.id"
+              color='#90CAF9'
+              class="ml-0 mr-2 black--text float-right"
+              label
+              small
+            >
+              {{ getNotification(channel) }} new
+            </v-chip>
       </button>
     </div>
     <!-- Modal -->

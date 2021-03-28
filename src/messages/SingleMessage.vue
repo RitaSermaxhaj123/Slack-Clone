@@ -52,4 +52,8 @@ export default {
         margin: 0 7px;
         padding: 0 10px;
     }
+    img{
+      margin-right:10px;
+      margin-top: 5px;
+    }
 </style>

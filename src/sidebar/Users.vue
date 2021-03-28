@@ -2,7 +2,7 @@
   <div>
     <div class="text-light">
       <h4>Users</h4>
-      <div class="mt-1">
+      <div class="mt-1" style="margin-bottom: 20px;">
         <button
           v-for="user in users"
           class="list-group-item list-group-item-action"
@@ -10,6 +10,7 @@
           :class="{ active: isActive(user) }"
           @click.prevent="changeChannel(user)"
         >
+
           <span
             :class="{
               'fa fa-circle online': isOnline(user),
@@ -18,23 +19,35 @@
           >
           </span>
 
-          <span>
-            <img class="img rounded-circle" :src="user.avatar" height="20" />
+          <span >
+            <img  class="img rounded-circle" :src="user.avatar" height="20" />
             <span>
               <a :class="{ 'text-light': isActive(user) }" href="#">{{
                 user.name
-              }}</a
-              ><span class="float-right" v-if="getNotification(user) >= 1">{{
+              }}</a>
+              <!-- <span style="color:black;" class="float-right" v-if="getNotification(user) >= 1">{{
                 getNotification(user)
-              }}</span></span
-            >
+              }}</span> -->
+            </span>
           </span>
+        
+            <v-chip
+              v-if="getNotification(user) >= 1"
+              color='#90CAF9'
+              class="ml-0 mr-2 black--text float-right"
+              label
+              small
+            >
+              {{ getNotification(user) }} new
+            </v-chip>
+          
         </button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 import database from "firebase/database";
 import { mapGetters } from "vuex";
 import mixin from "../mixins";
@@ -49,8 +62,8 @@ export default {
       presenceRef: firebase.database().ref("presence"),
       privateMessagesRef: firebase.database().ref("privateMessages"),
       notifCount: [],
-      channel: null,
-    };
+      channel: null
+      };
   },
 
   mixins: [mixin],
@@ -191,6 +204,19 @@ export default {
     },
 
     changeChannel(user) {
+      console.log("user name :"+ user.uid);
+      axios
+        .get(`http://localhost:3030/api/users/${user.uid}`)
+        .then((response) => {
+          console.log(response)
+          var selectedUser =  response.data;
+          console.log("HEREEEEEE");
+          console.log(selectedUser);
+        })
+        .catch((e) => {
+          console.log(`ERROR : ${e}`);
+        });
+
       if (this.channel === null) {
         this.resetNotifications(user);
       } else {
